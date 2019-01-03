@@ -36,6 +36,13 @@ def update_q(state, action, a, reward, new_state):
     q_table[state][action] += a * (reward + GAMMA * max(q_table[new_state]) - q_table[state][action])
 
 
+def update_memory(state):
+    if state not in count_table:
+        count_table[state] = 1
+    else:
+        count_table[state] += 1
+
+
 def play():
     state = GAME.reset()
     is_done = False
@@ -46,7 +53,9 @@ def play():
         action = get_action(state)
         new_state, is_done, reward, prob = GAME.step(action)
         update_q(state, action, get_alpha(), reward, new_state)
+        update_memory(state)
         total_reward += reward
+        moves += 1
 
 
 if __name__ == "__main__":
