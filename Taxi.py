@@ -15,7 +15,7 @@ NUM_EPISODES = 50000
 GAMMA = 0.95
 ALPHA_START = 0.1
 ALPHA_TAPER = 0.01
-EPSILON_START = 1.0
+EPSILON_START = 0.1
 EPSILON_TAPER = 0.01
 
 
@@ -53,21 +53,14 @@ def play():
         action = get_action(state)
         new_state, is_done, reward, prob = GAME.step(action)
         update_q(state, action, get_alpha(), reward, new_state)
-        update_memory(state)
+        # update_memory(state)
         total_reward += reward
         moves += 1
 
 
 if __name__ == "__main__":
     q_table = np.zeros((STATE_SPACE, ACTION_SPACE))
-    delta_array = []
     count_table = {}
 
-    # Play game
-    play()
-
-    # Record results
-
-    # update state values
-
-    # Repeat until convergence
+    for episode in range(NUM_EPISODES):
+        play()
